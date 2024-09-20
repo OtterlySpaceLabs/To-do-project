@@ -2,6 +2,7 @@
 
 // import { LatestPost } from "~/app/_components/post";
 import CreateTask from '~/app/_components/createtask';
+// import DisplayTask from '~/app/_components/displaytask';
 // import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 
@@ -11,6 +12,8 @@ export default async function Home() {
   // const session = await getServerAuthSession();
 
   // void api.post.getLatest.prefetch();
+
+  // void api.task.getLatest.prefetch();
 
   return (
     <HydrateClient>
@@ -24,9 +27,6 @@ export default async function Home() {
               <h2 className="my-3 text-lg">Vous pouvez ajouter une nouvelle tâche à la liste à l&apos;aide du formulaire ci-dessous :</h2>
             </div>
             <CreateTask />
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <h2 className="font-semibold text-xl">Liste des tâches</h2>
           </div>
         </div>
       </main>
