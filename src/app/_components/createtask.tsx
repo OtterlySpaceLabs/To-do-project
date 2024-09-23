@@ -4,10 +4,14 @@ import { useState } from "react";
 
 import { api } from "~/trpc/react";
 
+// import { FiEdit } from 'react-icons/fi';
+
 
 export default function CreateTask() {
 
     const [task, setTask] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [taskToEdit, setTaskToEdit] = useState<{ id: number, name: string } | null>(null);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTask(event.target.value);
@@ -25,7 +29,7 @@ export default function CreateTask() {
         },
     });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
         event.preventDefault();
         if (task.trim().length === 0) {
             console.error("Le champ de la tâche est vide.");
@@ -36,16 +40,37 @@ export default function CreateTask() {
         console.log("Envoi de la mutation avec le nom :", task);
     };
 
-    const deleteTask = api.task.delete.useMutation({
+    const deleteTaskMutation = api.task.delete.useMutation({
         onSuccess: async () => {
-            // Invalidate the query to refresh the task list
-            await utils.task.invalidate();
+            await utils.task.getAll.invalidate();
+        },
+    });
+
+    const updateTaskMutation = api.task.update.useMutation({
+        onSuccess: async () => {
+            await utils.task.getAll.invalidate();
         },
     });
 
     const handleDelete = (id: number) => {
-        deleteTask.mutate({ id });
-    }
+        deleteTaskMutation.mutate({ id });
+    };
+
+    const handleEditTask = (task: { id: number, task: string }) => {
+        setTaskToEdit({ id: task.id, name: task.task });
+        setIsModalOpen(true);
+    };
+
+    const handleUpdateTask = () => {
+        updateTaskMutation.mutate({ id: taskToEdit?.id ?? 0, name: taskToEdit?.name ?? "" });
+        setIsModalOpen(false);
+        setTaskToEdit(null);
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+        setTaskToEdit(null);
+    };
 
     return (
         <div>
@@ -80,9 +105,14 @@ export default function CreateTask() {
                 <ul role="list" className="space-y-3">
                     {tasks.length > 0 ? (
                         tasks.map((task) => (
-                            <li key={task.id} className="mt-4">
+                            <li key={task.id} className="flex justify-between items-center gap-5 mt-4">
                                 <span className="overflow-hidden text-[hsl(280,100%,70%)] bg-white px-6 py-3 shadow rounded-md mr-4">{task.task}</span>
-                                <button onClick={() => handleDelete(task.id)} className="bg-[hsl(280,100%,70%)] px-6 py-2.5 rounded-md">Supprimer</button>
+                                <span onClick={() => handleEditTask(task)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 text-[#CC66FF]" cursor="pointer">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                    </svg>
+                                </span>
+                                <button onClick={() => handleDelete(task.id)} className="bg-[hsl(280,43%,39%)] px-6 py-2.5 rounded-md">Supprimer</button>
                             </li>
                         ))
                     ) : (
@@ -90,6 +120,28 @@ export default function CreateTask() {
                     )}
                 </ul>
             </div>
+
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-md shadow-md">
+                        <h2 className="text-[hsl(280,43%,39%)] text-lg font-semibold mb-4">Modifier la tâche</h2>
+                        <input
+                            type="text"
+                            value={taskToEdit?.name ?? ""}
+                            onChange={(e) => setTaskToEdit(prev => prev ? { ...prev, name: e.target.value } : null)}
+                            className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                        <div className="flex justify-end mt-4">
+                            <button onClick={handleUpdateTask} className="bg-[hsl(280,43%,39%)] text-white px-4 py-2 rounded-md mr-2">Enregistrer</button>
+                            <button onClick={handleModalClose} className="bg-indigo-600 text-white px-4 py-2 rounded-md">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+
+
         </div>
     );
 }
