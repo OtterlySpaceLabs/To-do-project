@@ -5,20 +5,18 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 
-const tasks: { id: number, task: string }[] = [];
+import { tasks } from "~/server/db/schema";
+// const tasks: { id: number, task: string }[] = [];
 
 
 export const taskRouter = createTRPCRouter({
   create: protectedProcedure
     .input(z.object({ name: z.string().min(1) }))
-    .mutation(async ({ input }) => {
-      const newTask = {
-        id: tasks.length + 1,
-        task: input.name
-      };
-
-      tasks.push(newTask);
-      return newTask;
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(tasks).values({
+        task: input.name,
+        createdById: ctx.session.user.id,
+      });
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
