@@ -2,14 +2,14 @@ import { z } from "zod";
 
 import {
   createTRPCRouter,
-  // protectedProcedure,
-  publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 
 const tasks: { id: number, task: string }[] = [];
 
+
 export const taskRouter = createTRPCRouter({
-  create: publicProcedure
+  create: protectedProcedure
     .input(z.object({ name: z.string().min(1) }))
     .mutation(async ({ input }) => {
       const newTask = {
@@ -21,20 +21,16 @@ export const taskRouter = createTRPCRouter({
       return newTask;
     }),
 
-  getLatest: publicProcedure.query(async () => {
-    if (tasks.length === 0) {
-      return null;
-    }
-
-    const latestTask = tasks[tasks.length - 1];
-    return latestTask;
-  }),
-
-  getAll: publicProcedure.query(async () => {
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    const { session } = ctx;
+  
+    const tasks = await ctx.db.query.tasks.findMany({
+      where: ((tasks, { eq }) => eq(tasks.createdById, session.user.id))
+    });
     return tasks;
   }),
 
-  delete: publicProcedure
+  delete: protectedProcedure
   .input(z.object({ id: z.number() }))
   .mutation(async ({ input }) => {
     const taskIndex = tasks.findIndex(task => task.id === input.id);
@@ -46,7 +42,7 @@ export const taskRouter = createTRPCRouter({
     return deletedTask;
   }),
 
-  update: publicProcedure
+  update: protectedProcedure
   .input(z.object({ id: z.number(), name: z.string().min(1) }))
   .mutation(async ({ input }) => {
     const taskIndex = tasks.findIndex(task => task.id === input.id);

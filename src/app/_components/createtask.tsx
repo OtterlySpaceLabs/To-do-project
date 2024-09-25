@@ -1,22 +1,17 @@
 "use client";
 
 import { useState } from "react";
-
 import { api } from "~/trpc/react";
-
-// import { FiEdit } from 'react-icons/fi';
-
 import { PencilIcon } from '@heroicons/react/24/outline';
 
 export default function CreateTask() {
-
     const [task, setTask] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskToEdit, setTaskToEdit] = useState<{ id: number, name: string } | null>(null);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTask(event.target.value);
-        console.log("Task updated :", event.target.value);
+        // console.log("Task updated :", event.target.value);
     }
 
     const [tasks] = api.task.getAll.useSuspenseQuery();

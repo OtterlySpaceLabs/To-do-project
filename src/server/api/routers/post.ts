@@ -10,7 +10,14 @@ import { posts } from "~/server/db/schema";
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
+    .query(({ input, ctx }) => {
+      const session = ctx.session;
+      // Si l'utilisateur est connecté, afficher son nom
+      if (session) {
+        return {
+          greeting: `Hello ${session.user.name ?? input.text}!`,
+        };
+      }
       return {
         greeting: `Hello ${input.text}`,
       };

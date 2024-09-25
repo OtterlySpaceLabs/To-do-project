@@ -19,6 +19,27 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = pgTableCreator((name) => `to-do-project_${name}`);
 
+export const tasks = createTable(
+  "task",
+  {
+    id: serial("id").primaryKey(),
+    task: varchar("task", { length: 256 }),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    createdById: varchar("created_by", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date()
+    ),
+  },
+  (taskTable) => ({
+    createdByIdIdx: index("task_created_by_idx").on(taskTable.createdById)
+  })
+)
+
 export const posts = createTable(
   "post",
   {
