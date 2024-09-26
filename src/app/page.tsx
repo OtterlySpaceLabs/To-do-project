@@ -8,6 +8,7 @@ export default async function Home() {
           <span className="text-[hsl(280,100%,70%)]">To-Do</span> project
         </h1>
         <div className="mx-4">
+          <p className="text-center my-4">C&#39;est parti mon kiki !</p>
           <SignIn />
         </div>
       </div>
