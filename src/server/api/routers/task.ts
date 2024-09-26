@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { eq } from "drizzle-orm";
 
 import {
   createTRPCRouter,
@@ -6,8 +7,6 @@ import {
 } from "~/server/api/trpc";
 
 import { tasks } from "~/server/db/schema";
-// const tasks: { id: number, task: string }[] = [];
-
 
 export const taskRouter = createTRPCRouter({
   create: protectedProcedure
@@ -20,40 +19,56 @@ export const taskRouter = createTRPCRouter({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    const { session } = ctx;
-  
-    const tasks = await ctx.db.query.tasks.findMany({
+    const { session, db } = ctx;
+
+    const allTasks = await db.query.tasks.findMany({
       where: ((tasks, { eq }) => eq(tasks.createdById, session.user.id))
     });
-    return tasks;
+
+    return allTasks;
   }),
 
   delete: protectedProcedure
-  .input(z.object({ id: z.number() }))
-  .mutation(async ({ input }) => {
-    const taskIndex = tasks.findIndex(task => task.id === input.id);
-    if (taskIndex === -1) {
-      throw new Error("Task not found");
-    }
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const { session } = ctx;
 
-    const deletedTask = tasks.splice(taskIndex, 1)[0];
-    return deletedTask;
-  }),
+      const taskIndex = await ctx.db.query.tasks.findFirst({
+        where: ((tasks, { eq, and }) => and(eq(tasks.id, input.id), eq(tasks.createdById, session.user.id)))
+      });
 
-  update: protectedProcedure
-  .input(z.object({ id: z.number(), name: z.string().min(1) }))
-  .mutation(async ({ input }) => {
-    const taskIndex = tasks.findIndex(task => task.id === input.id);
-      if (taskIndex === -1) {
+      if (!taskIndex) {
         throw new Error("Task not found");
       }
 
-    const taskToUpdate = tasks[taskIndex];
-    if (taskToUpdate) {
-      taskToUpdate.task = input.name;
-      return taskToUpdate;
-    } else {
-      throw new Error("Task is undefined");
-    }
-  }),
+      const deletedTask = await ctx.db.delete(tasks)
+        .where(eq(tasks.id, input.id))
+        .returning({ id: tasks.id });
+
+      return { success: true, deletedTask };
+
+    }),
+
+  update: protectedProcedure
+    .input(z.object({ id: z.number(), name: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+
+      const { session } = ctx;
+
+      const taskIndex = await ctx.db.query.tasks.findFirst({
+        where: ((tasks, { eq, and }) => and(eq(tasks.id, input.id), eq(tasks.createdById, session.user.id)))
+      });
+
+      if (!taskIndex) {
+        throw new Error("Task not found");
+      }
+
+      const updatedTask = await ctx.db.update(tasks)
+        .set({ task: input.name })
+        .where(eq(tasks.id, input.id))
+        .returning({ id: tasks.id });
+
+      return { success: true, updatedTask };
+
+    }),
 });

@@ -23,7 +23,7 @@ export const tasks = createTable(
   "task",
   {
     id: serial("id").primaryKey(),
-    task: varchar("task", { length: 256 }),
+    task: varchar("task", { length: 256 }).notNull(),
     completedAt: timestamp("completed_at", { withTimezone: true }),
     createdById: varchar("created_by", { length: 255 })
       .notNull()
@@ -39,6 +39,8 @@ export const tasks = createTable(
     createdByIdIdx: index("task_created_by_idx").on(taskTable.createdById)
   })
 )
+
+export type Task = typeof tasks.$inferSelect
 
 export const posts = createTable(
   "post",

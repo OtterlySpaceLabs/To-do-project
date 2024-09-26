@@ -3,18 +3,23 @@
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import { PencilIcon } from '@heroicons/react/24/outline';
+import { type Task } from "~/server/db/schema";
+
+import Loader from "./loader";
 
 export default function CreateTask() {
     const [task, setTask] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [taskToEdit, setTaskToEdit] = useState<{ id: number, name: string } | null>(null);
+    const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+    const [isError, setIsError] = useState(false);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTask(event.target.value);
-        // console.log("Task updated :", event.target.value);
     }
 
-    const [tasks] = api.task.getAll.useSuspenseQuery();
+    const { data, isLoading, error } = api.task.getAll.useQuery();
+
+    const tasks = data ?? [];
 
     const utils = api.useUtils();
 
@@ -52,13 +57,13 @@ export default function CreateTask() {
         deleteTaskMutation.mutate({ id });
     };
 
-    const handleEditTask = (task: { id: number, task: string }) => {
-        setTaskToEdit({ id: task.id, name: task.task });
+    const handleEditTask = (task: Task) => {
+        setTaskToEdit(task);
         setIsModalOpen(true);
     };
 
     const handleUpdateTask = () => {
-        updateTaskMutation.mutate({ id: taskToEdit?.id ?? 0, name: taskToEdit?.name ?? "" });
+        updateTaskMutation.mutate({ id: taskToEdit?.id ?? 0, name: taskToEdit?.task ?? "" });
         setIsModalOpen(false);
         setTaskToEdit(null);
     };
@@ -98,21 +103,27 @@ export default function CreateTask() {
             </form>
             <div className="flex flex-col items-center gap-2 mt-4">
                 <h2 className="font-semibold text-xl">Liste des tâches</h2>
-                <ul role="list" className="space-y-3">
-                    {tasks.length > 0 ? (
-                        tasks.map((task) => (
-                            <li key={task.id} className="flex justify-between items-center gap-5 mt-4">
-                                <span className="overflow-hidden text-[hsl(280,100%,70%)] bg-white px-6 py-3 shadow rounded-md mr-4">{task.task}</span>
-                                <span onClick={() => handleEditTask(task)}>
-                                    <PencilIcon className="h-6 w-6 text-[#CC66FF] cursor-pointer" />
-                                </span>
-                                <button onClick={() => handleDelete(task.id)} className="bg-[hsl(280,43%,39%)] px-6 py-2.5 rounded-md">Supprimer</button>
-                            </li>
-                        ))
-                    ) : (
-                        <li className="px-4 py-4">Vous n&apos;avez pas encore de tâches créées.</li>
-                    )}
-                </ul>
+                {isLoading ? (
+                    <Loader />
+                ) : isError ? (
+                    <div className="text-red-500">Erreur lors du chargement des tâches.</div>
+                ) : (
+                    <ul role="list" className="space-y-3">
+                        {tasks.length > 0 ? (
+                            tasks.map((task) => (
+                                <li key={task.id} className="flex justify-between items-center gap-5 mt-4">
+                                    <span className="overflow-hidden text-[hsl(280,100%,70%)] bg-white px-6 py-3 shadow rounded-md mr-4">{task.task}</span>
+                                    <span onClick={() => handleEditTask(task)}>
+                                        <PencilIcon className="h-6 w-6 text-[#CC66FF] cursor-pointer" />
+                                    </span>
+                                    <button onClick={() => handleDelete(task.id)} className="bg-[hsl(280,43%,39%)] px-6 py-2.5 rounded-md">Supprimer</button>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="px-4 py-4">Vous n&apos;avez pas encore de tâches créées.</li>
+                        )}
+                    </ul>
+                )}
             </div>
 
             {isModalOpen && (
@@ -121,8 +132,8 @@ export default function CreateTask() {
                         <h2 className="text-[hsl(280,43%,39%)] text-lg font-semibold mb-4">Modifier la tâche</h2>
                         <input
                             type="text"
-                            value={taskToEdit?.name ?? ""}
-                            onChange={(e) => setTaskToEdit(prev => prev ? { ...prev, name: e.target.value } : null)}
+                            value={taskToEdit?.task ?? ""}
+                            onChange={(e) => setTaskToEdit(prev => prev ? { ...prev, task: e.target.value } : null)}
                             className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                         <div className="flex justify-end mt-4">
