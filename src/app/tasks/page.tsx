@@ -1,4 +1,4 @@
-import CreateTask from '~/app/_components/createtask';
+import CreateTask from '~/app/_components/createTask';
 import SignOut from '../_components/signOut';
 import { getServerAuthSession } from "~/server/auth";
 import { HydrateClient } from "~/trpc/server";
@@ -14,7 +14,7 @@ export default async function TasksPage() {
                 </div>
                 <div className="container flex flex-col items-center justify-center gap-12 px-5 py-16">
                     <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-                        <span className="text-[hsl(280,100%,70%)]">To-Do</span> project
+                        <span className="text-fuchsia-400">To-Do</span> project
                     </h1>
                     <div className="mx-4">
                         <div className="flex flex-col items-center gap-2">
