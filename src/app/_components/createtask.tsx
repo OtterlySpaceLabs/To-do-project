@@ -11,7 +11,7 @@ export default function CreateTask() {
     const [task, setTask] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
-    const [isError, setIsError] = useState(false);
+    // const [isError, setIsError] = useState(false);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTask(event.target.value);
@@ -105,8 +105,8 @@ export default function CreateTask() {
                 <h2 className="font-semibold text-xl">Liste des tâches</h2>
                 {isLoading ? (
                     <Loader />
-                ) : isError ? (
-                    <div className="text-red-500">Erreur lors du chargement des tâches.</div>
+                ) : error ? (
+                    <div className="text-red-500">Erreur lors du chargement des tâches : {error.message}</div>
                 ) : (
                     <ul role="list" className="space-y-3">
                         {tasks.length > 0 ? (
