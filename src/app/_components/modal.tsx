@@ -10,7 +10,7 @@ interface ModalButton {
 }
 
 interface ModalProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     isOpen: boolean;
     onClose: () => void;
     title: string;

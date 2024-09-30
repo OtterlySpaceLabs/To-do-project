@@ -2,11 +2,14 @@
 
 interface TaskFormProps {
     task: string;
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    setTask: React.Dispatch<React.SetStateAction<string>>;
     handleSubmit: (event: React.FormEvent<HTMLButtonElement>) => void;
 }
 
-export default function TaskForm({ task, handleChange, handleSubmit }: TaskFormProps) {
+export default function TaskForm({ task, setTask, handleSubmit }: TaskFormProps) {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTask(event.target.value);
+    };
 
     return (
         <form className="flex flex-col gap-3 mt-2 justify-center items-center sm:flex-row">
