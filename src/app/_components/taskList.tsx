@@ -1,38 +1,51 @@
 "use client";
-// import { useState } from "react";
-// import { api } from "~/trpc/react";
-
 import { PencilIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from '@heroicons/react/24/outline';
 import { type Task } from "~/server/db/schema";
-
-// import Modal from './modal';
 
 interface TaskListProps {
     tasks: Task[];
     openEditModal: (task: Task) => void;
     openDeleteModal: (task: Task) => void;
-    // handleDelete: (id: number) => void;
 }
 
 export default function TaskList({ tasks, openEditModal, openDeleteModal }: TaskListProps) {
     return (
-        <div>
-            <ul role="list" className="space-y-3">
-                {tasks.length > 0 ? (
-                    tasks.map((task) => (
-                        <li key={task.id} className="flex justify-between items-center gap-5 mt-4">
-                            <span className="overflow-hidden text-fuchsia-900 bg-white px-6 py-3 shadow rounded-md mr-4">{task.task}</span>
-                            <span onClick={() => openEditModal(task)}>
-                                <PencilIcon className="h-6 w-6 text-fuchsia-400 cursor-pointer" />
-                            </span>
-                            <button onClick={() => openDeleteModal(task)} className="bg-fuchsia-900 px-6 py-2.5 rounded-md">Supprimer</button>
-                        </li>
-                    ))
-                ) : (
-                    <li className="px-4 py-4">Vous n&apos;avez pas encore de tâches créées.</li>
-                )}
-            </ul>
+        <fieldset className="flex flex-col w-full mt-2 mt-6">
+            <legend className="font-semibold text-xl">Liste des tâches</legend>
+            <div className="mt-4">
+                {
+                    tasks.length > 0 ? (
+                        tasks.map((task) => (
+                            <div key={task.id} className="relative flex items-center py-4">
+                                <div className="ml-3 mr-3 flex items-center">
+                                    <input
+                                        id={`task-${task.id}`}
+                                        name={`task-${task.id}`}
+                                        type="checkbox"
+                                        className="h-4 w-4 rounded-md border-gray-300 text-secondary focus:ring-secondary focus:ring-2 focus:ring-offset-2 focus: rounded-md"
+                                    />
+                                </div>
+                                <div className="min-w-0 flex-1 text-sm leading-6">
+                                    <label htmlFor={`task-${task.id}`} className="select-none font-medium text-gray-900">
+                                        {task.task}
+                                    </label>
 
-        </div>
+                                </div>
+                                <div className="ml-3 mr-3 gap-2 flex items-center">
+                                    <span onClick={() => openEditModal(task)}>
+                                        <PencilIcon className="h-5 w-5 text-primary cursor-pointer" />
+                                    </span>
+                                    <span onClick={() => openDeleteModal(task)}>
+                                        <TrashIcon className="h-5 w-5 text-warning cursor-pointer" />
+                                    </span>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div>Vous n&apos;avez pas encore de tâches créées</div>
+                    )}
+            </div>
+        </fieldset>
     );
 }

@@ -28,13 +28,6 @@ export default function CreateTask() {
 
     const { createTask } = useTaskMutations(utils, setTask);
 
-    // const createTask = api.task.create.useMutation({
-    //     onSuccess: async () => {
-    //         await utils.task.invalidate();
-    //         setTask("");
-    //     },
-    // });
-
     const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
         event.preventDefault();
         if (task.trim().length === 0) {
@@ -73,8 +66,7 @@ export default function CreateTask() {
                 setTask={setTask}
                 handleSubmit={(event) => handleSubmit(event)}
             />
-            <div className="flex flex-col items-center gap-2 mt-4">
-                <h2 className="font-semibold text-xl">Liste des tâches</h2>
+            <div className="flex flex-col items-center gap-2 mt-6">
                 {isLoading ? (
                     <Loader />
                 ) : error ? (

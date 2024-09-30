@@ -70,7 +70,7 @@ export default function EditTaskModal({ isOpen, taskToEdit, onClose }: EditTaskM
                 {
                     label: 'Modifier',
                     onClick: handleUpdateTask,
-                    className: 'bg-fuchsia-900 rounded-md text-white hover:bg-fuchsia-700'
+                    className: 'bg-primary rounded-md text-white hover:bg-accent'
                 }
             ]}
         >
@@ -80,7 +80,7 @@ export default function EditTaskModal({ isOpen, taskToEdit, onClose }: EditTaskM
                 type="text"
                 value={editTaskName}
                 onChange={(e) => setEditTaskName(e.target.value)}
-                className="block w-full rounded-md border-0 mt-2 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 mt-2 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}
         </Modal>

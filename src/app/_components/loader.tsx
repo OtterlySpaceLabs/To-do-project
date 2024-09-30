@@ -3,7 +3,7 @@
 export default function Loader() {
     return (
         <div className="flex flex-col items-center gap-2 mt-4">
-            <svg className="animate-spin h-24 w-24 mr-3 stroke-fuchsia-900" viewBox="0 0 24 24">
+            <svg className="animate-spin h-24 w-24 mr-3 stroke-accent" viewBox="0 0 24 24">
                 <circle
                     cx="12"
                     cy="12"
