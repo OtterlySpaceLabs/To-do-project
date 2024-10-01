@@ -70,7 +70,7 @@ export default function CreateTask() {
                 {isLoading ? (
                     <Loader />
                 ) : error ? (
-                    <div className="text-red-500">Erreur lors du chargement des tâches : {error.message}</div>
+                    <div className="text-warning">Erreur lors du chargement des tâches : {error.message}</div>
                 ) : (
                     <TaskList
                         tasks={tasks}

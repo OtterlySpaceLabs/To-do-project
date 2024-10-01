@@ -10,7 +10,7 @@ const navigation = [
     { name: 'Dashboard', href: '/tasks', current: true },
 ]
 
-function classNames(...classes) {
+function classNames(...classes: string[]): string {
     return classes.filter(Boolean).join(' ')
 }
 
@@ -23,16 +23,16 @@ export default async function TasksPage() {
                 <div className="bg-gradient-to-r from-primary to-primaryGradient pb-32">
                     <Disclosure as="nav" className="bg-gradient-to-r from-primary to-primaryGradient">
                         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                            <div className="border-b border-gray-700">
+                            <div className="border-b border-stone-700/75">
                                 <div className="flex h-16 items-center justify-between px-4 sm:px-0">
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0">
                                             <Image
-                                                alt="To-do project"
                                                 src="logo.svg"
                                                 width={32}
                                                 height={32}
                                                 priority={false}
+                                                alt="To-do project"
                                             />
                                         </div>
                                         <div className="hidden md:block">

@@ -54,7 +54,7 @@ export default function DeleteTaskModal({ isOpen, taskToDelete, onClose }: Delet
                 {
                     label: 'Supprimer',
                     onClick: handleDeleteTask,
-                    className: 'bg-warning rounded-md text-white hover:bg-warning'
+                    className: 'bg-gradient-to-r from-warning to-warningGradient rounded-md text-white shadow-md hover:from-warningGradient hover:to-warningGradient hover:shadow-lg'
                 }
             ]}
         />

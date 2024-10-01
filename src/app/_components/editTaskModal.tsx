@@ -20,23 +20,9 @@ export default function EditTaskModal({ isOpen, taskToEdit, onClose }: EditTaskM
     }, [taskToEdit]);
 
     const utils = api.useUtils();
-    // const updateTaskMutation = api.task.update.useMutation({
-    //     onSuccess: async () => {
-    //         await utils.task.getAll.invalidate();
-    //     },
-    // });
-
     const updateTaskMutation = api.task.update.useMutation({
-        onSuccess: async (data, variables, context) => {
-            console.log("Mutation update réussie :", data);
-            console.log("Variables update :", variables);
-            console.log("Contexte update :", context);
+        onSuccess: async () => {
             await utils.task.getAll.invalidate();
-        },
-        onError: (error, variables, context) => {
-            console.error("Erreur de mutation :", error);
-            console.log("Variables :", variables);
-            console.log("Contexte :", context);
         },
     });
 
@@ -48,7 +34,6 @@ export default function EditTaskModal({ isOpen, taskToEdit, onClose }: EditTaskM
         if (taskToEdit) {
             setErrorMessage("");
             updateTaskMutation.mutate({ id: taskToEdit?.id ?? 0, name: editTaskName ?? "" });
-            console.log("La mutation a été envoyée avec updatemutation :", updateTaskMutation);
             onClose();
         }
     };
@@ -70,7 +55,7 @@ export default function EditTaskModal({ isOpen, taskToEdit, onClose }: EditTaskM
                 {
                     label: 'Modifier',
                     onClick: handleUpdateTask,
-                    className: 'bg-primary rounded-md text-white hover:bg-accent'
+                    className: 'bg-gradient-to-r from-primary to-accent rounded-md text-white shadow-md hover:from-accent hover:to-accentGradient hover:shadow-lg'
                 }
             ]}
         >

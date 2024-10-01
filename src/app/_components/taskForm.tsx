@@ -31,7 +31,7 @@ export default function TaskForm({ task, setTask, handleSubmit }: TaskFormProps)
                 type="submit"
                 className={`w-full inline-flex items-center justify-center rounded-md px-3 py-3 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-0 sm:w-auto ${task.trim().length === 0
                     ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                    : "bg-primary text-white hover:bg-indigo-500 focus-visible:outline-primary"
+                    : "bg-gradient-to-r from-primary to-accent text-white focus-visible:outline-primary hover:shadow-lg hover:from-accent hover:to-accentGradient"
                     }`} onClick={handleSubmit}
                 disabled={task.trim().length === 0}
             >
