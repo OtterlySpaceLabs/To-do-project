@@ -22,7 +22,8 @@ export const taskRouter = createTRPCRouter({
     const { session, db } = ctx;
 
     const allTasks = await db.query.tasks.findMany({
-      where: ((tasks, { eq }) => eq(tasks.createdById, session.user.id))
+      where: ((tasks, { eq }) => eq(tasks.createdById, session.user.id)),
+      orderBy: (fields, {asc}) => asc(fields.createdAt),
     });
 
     return allTasks;
