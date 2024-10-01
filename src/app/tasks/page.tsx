@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import CreateTask from '~/app/_components/createTask';
@@ -19,12 +20,21 @@ export default async function TasksPage() {
     return (
         <HydrateClient>
             <div className="min-h-full">
-                <div className="bg-primary pb-32">
-                    <Disclosure as="nav" className="bg-primary">
+                <div className="bg-gradient-to-r from-primary to-primaryGradient pb-32">
+                    <Disclosure as="nav" className="bg-gradient-to-r from-primary to-primaryGradient">
                         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                             <div className="border-b border-gray-700">
                                 <div className="flex h-16 items-center justify-between px-4 sm:px-0">
                                     <div className="flex items-center">
+                                        <div className="flex-shrink-0">
+                                            <Image
+                                                alt="To-do project"
+                                                src="logo.svg"
+                                                width={32}
+                                                height={32}
+                                                priority={false}
+                                            />
+                                        </div>
                                         <div className="hidden md:block">
                                             <div className="ml-10 flex items-baseline space-x-4">
                                                 {navigation.map((item) => (

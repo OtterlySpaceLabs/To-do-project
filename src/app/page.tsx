@@ -28,12 +28,12 @@ export default async function Home() {
                 height={250}
                 priority={true}
                 alt="Carnet de notes"
-                className="animate-float"
+                className="my-6 animate-float"
                 style={{ clipPath: 'inset(3px)' }}
               />
 
-              <p className="text-center my-4">C&#39;est par ici !</p>
-              <span className="flex items-center justify-center rounded-full h-10 w-10 bg-white shadow-lg mt-4 mb-6 hover:animate-bounce">
+              <p className="text-center mt-6 mb-2">C&#39;est parti mon kiki !</p>
+              <span className="flex items-center justify-center rounded-full h-10 w-10 bg-white shadow-lg mt-2 mb-6 hover:animate-bounce">
                 <ArrowDownIcon className="rounded-full h-7 w-7 text-accent" />
               </span>
 
