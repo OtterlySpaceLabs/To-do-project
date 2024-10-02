@@ -6,16 +6,16 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
-  title:"To-do project",
-  description: "List what you have to do in this to-do app project",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  title: "To-do project",
+  description: "Cette app vous permet de créer une to-do list.",
+  icons: [{ rel: "icon", url: "/logo.ico" }],
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="fr" className={`${GeistSans.variable}`}>
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
