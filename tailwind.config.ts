@@ -1,5 +1,6 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import forms from '@tailwindcss/forms';
 
 export default {
   content: ["./src/**/*.tsx"],
@@ -9,14 +10,14 @@ export default {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
       colors: {
-        primary: '#7360f1',
-        primaryGradient:'#8271F3',    // Electric Lavender
-        secondary: '#2D7AF5',
-        secondaryGradient:'#0062FF',  // Ocean Blue
-        tertiary: '#81ECFF',
-        tertiaryGradient:'#B6F4FF',   // Azure
-        accent: '#D297FF',
-        accentGradient:'#E3BDFF', // Lilac or Soft Lavender
+        primary: '#7360f1', // Electric Lavender
+        primaryGradient:'#8271F3',    
+        secondary: '#2D7AF5', // Ocean Blue
+        secondaryGradient:'#0062FF',  
+        tertiary: '#81ECFF', // Azure
+        tertiaryGradient:'#B6F4FF',   
+        accent: '#D297FF', // Lilac or Soft Lavender
+        accentGradient:'#E3BDFF', 
         warning:'#F24E1E', // Red
         warningGradient:'#FF7262',     
       },
@@ -36,5 +37,7 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    forms,
+  ],
 } satisfies Config;

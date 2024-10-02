@@ -23,7 +23,7 @@ export default function TaskList({ tasks, openEditModal, openDeleteModal }: Task
                                         id={`task-${task.id}`}
                                         name={`task-${task.id}`}
                                         type="checkbox"
-                                        className="h-4 w-4 rounded-md border-gray-300 text-secondary focus:ring-secondary focus:ring-2 focus:ring-offset-2 focus: rounded-md"
+                                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                                     />
                                 </div>
                                 <div className="min-w-0 flex-1 text-sm leading-6">
