@@ -7,7 +7,7 @@ interface BackgroundCirclesProps {
 
 export default function BackgroundCircles({ children, className }: BackgroundCirclesProps) {
     return (
-        <div className={`relative w-full h-screen overflow-hidden ${className}`}>
+        <div className={`relative bg-gradient-to-r from-primary to-primaryGradient w-full h-screen overflow-hidden ${className}`}>
             {/* Cercle 1 */}
             <div className="absolute top-10 left-10 w-72 h-72 bg-secondary rounded-full blur-3xl opacity-50"></div>
             {/* Cercle 2 */}

@@ -21,11 +21,9 @@ export default async function TasksPage() {
     return (
         <HydrateClient>
             <div className="min-h-full">
-
-
-                <BackgroundCircles className="!h-max !-z-10">
-                    <div className="bg-gradient-to-r from-primary to-primaryGradient pb-32">
-                        <Disclosure as="nav" className="bg-gradient-to-r from-primary to-primaryGradient">
+                <BackgroundCircles className="!h-max !-z-1">
+                    <div className="relative pb-32">
+                        <Disclosure as="nav" className="z-20">
                             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                                 <div className="border-b border-stone-700/75">
                                     <div className="flex h-16 items-center justify-between px-4 sm:px-0">
@@ -114,8 +112,7 @@ export default async function TasksPage() {
                         </header>
                     </div>
                 </BackgroundCircles>
-                {/* </div> */}
-                <main className="-mt-32 z-10">
+                <main className="relative -mt-32 !z-1">
                     <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
                         <div className="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
 
