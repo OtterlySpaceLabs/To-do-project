@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 import {
   createTRPCRouter,
@@ -23,7 +23,7 @@ export const taskRouter = createTRPCRouter({
 
     const allTasks = await db.query.tasks.findMany({
       where: ((tasks, { eq }) => eq(tasks.createdById, session.user.id)),
-      orderBy: (fields, {asc}) => asc(fields.createdAt),
+      orderBy: (fields, { asc }) => asc(fields.createdAt),
     });
 
     return allTasks;
@@ -71,5 +71,29 @@ export const taskRouter = createTRPCRouter({
 
       return { success: true, updatedTask };
 
+    }),
+
+  toggleComplete: protectedProcedure
+    .input(z.object({ id: z.number(), completed: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const { session, db } = ctx;
+
+      // Ensure the task belongs to the current user
+      const task = await db.query.tasks.findFirst({
+        where: ((tasks, { eq, and }) =>
+          and(eq(tasks.id, input.id), eq(tasks.createdById, session.user.id))
+        ),
+      });
+
+      if (!task) {
+        throw new Error("Task not found");
+      }
+
+      const updatedTask = await db.update(tasks)
+        .set({ completedAt: input.completed ? sql`CURRENT_TIMESTAMP` : null })
+        .where(eq(tasks.id, input.id))
+        .returning({ id: tasks.id, completedAt: tasks.completedAt });
+
+      return { success: true, updatedTask };
     }),
 });
