@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 import { type Task } from "~/server/db/schema";
 
@@ -11,6 +11,9 @@ import EditTaskModal from "./editTaskModal";
 import DeleteTaskModal from "./deleteTaskModal";
 import { useTaskMutations } from "~/app/hook/useTaskMutations";
 
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
 export default function CreateTask() {
     const [task, setTask] = useState("");
     const [isModalEditOpen, setIsModalEditOpen] = useState(false);
@@ -18,11 +21,11 @@ export default function CreateTask() {
     const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
     const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
 
-    const { data, isLoading, error } = api.task.getAll.useQuery();
+    const { data: tasks, isLoading, error } = api.task.getAll.useQuery();
 
-    const tasks = data ?? [];
-
-    console.log("Les tâches :", tasks);
+    useEffect(() => {
+        console.log("Les tâches :", tasks);
+    }, [tasks]);
 
     const utils = api.useUtils();
 
@@ -72,11 +75,14 @@ export default function CreateTask() {
                 ) : error ? (
                     <div className="text-warning">Erreur lors du chargement des tâches : {error.message}</div>
                 ) : (
-                    <TaskList
-                        tasks={tasks}
-                        openEditModal={openEditModal}
-                        openDeleteModal={openDeleteModal}
-                    />
+                    <DndProvider backend={HTML5Backend}>
+                        <TaskList
+                            tasks={tasks}
+                            openEditModal={openEditModal}
+                            openDeleteModal={openDeleteModal}
+                        />
+                    </DndProvider>
+
                 )}
             </div>
 
