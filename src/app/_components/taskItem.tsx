@@ -38,7 +38,7 @@ export default function TaskItem({
         handlerId: monitor.getHandlerId(),
       };
     },
-    drop: (item: { index: number }) => {
+    drop: (item: { index: number }, monitor) => {
       if (!ref.current) {
         return;
       }

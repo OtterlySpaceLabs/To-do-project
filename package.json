@@ -11,7 +11,9 @@
     "db:studio": "drizzle-kit studio",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "lint:fix": "next lint --fix",
+    "start": "next start",
+    "format": "prettier --write ./src"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.1.0",
@@ -35,6 +37,7 @@
     "react-dom": "^18.3.1",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
+    "use-debounce": "^10.0.3",
     "zod": "^3.23.3"
   },
   "devDependencies": {
@@ -47,7 +50,9 @@
     "drizzle-kit": "^0.24.2",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.4",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-drizzle": "^0.2.3",
+    "eslint-plugin-prettier": "^5.2.1",
     "postcss": "^8.4.39",
     "prettier": "^3.3.2",
     "prettier-eslint": "^16.3.0",
