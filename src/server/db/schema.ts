@@ -25,6 +25,7 @@ export const tasks = createTable(
     id: serial("id").primaryKey(),
     task: varchar("task", { length: 256 }).notNull(),
     completedAt: timestamp("completed_at", { withTimezone: true }),
+    index: integer("index"),
     createdById: varchar("created_by", { length: 255 })
       .notNull()
       .references(() => users.id),
@@ -32,15 +33,15 @@ export const tasks = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date()
+      () => new Date(),
     ),
   },
   (taskTable) => ({
-    createdByIdIdx: index("task_created_by_idx").on(taskTable.createdById)
-  })
-)
+    createdByIdIdx: index("task_created_by_idx").on(taskTable.createdById),
+  }),
+);
 
-export type Task = typeof tasks.$inferSelect
+export type Task = typeof tasks.$inferSelect;
 
 export const posts = createTable(
   "post",
@@ -54,13 +55,13 @@ export const posts = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date()
+      () => new Date(),
     ),
   },
   (example) => ({
     createdByIdIdx: index("created_by_idx").on(example.createdById),
     nameIndex: index("name_idx").on(example.name),
-  })
+  }),
 );
 
 export const users = createTable("user", {
@@ -107,7 +108,7 @@ export const accounts = createTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_user_id_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -130,7 +131,7 @@ export const sessions = createTable(
   },
   (session) => ({
     userIdIdx: index("session_user_id_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -149,5 +150,5 @@ export const verificationTokens = createTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
+  }),
 );
