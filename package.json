@@ -13,7 +13,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "start": "next start",
-    "format": "prettier --write ./src"
+    "format": "prettier --write ./src",
+    "type-check": "tsc --pretty --noEmit"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.1.0",
