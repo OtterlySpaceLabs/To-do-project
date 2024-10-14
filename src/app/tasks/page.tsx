@@ -48,8 +48,8 @@ export default async function TasksPage() {
                               aria-current={item.current ? "page" : undefined}
                               className={classNames(
                                 item.current
-                                  ? "bg-gray-900 text-white"
-                                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                  ? "bg-gray-900 text-white hover:bg-gray-700"
+                                  : "text-gray-300 hover:bg-gray-500 hover:text-white",
                                 "rounded-md px-3 py-2 text-sm font-medium",
                               )}
                             >
@@ -63,7 +63,7 @@ export default async function TasksPage() {
                       <div className="ml-4 flex items-center md:ml-6">
                         <h2 className="mr-4 text-sm text-white">
                           Bienvenue{" "}
-                          <span className="text-accent">
+                          <span className="font-semibold text-white">
                             {session.user.name}
                           </span>
                         </h2>
@@ -75,7 +75,9 @@ export default async function TasksPage() {
                       {/* Mobile menu button */}
                       <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-0.5" />
-                        <span className="sr-only">Open main menu</span>
+                        <span className="sr-only">
+                          Ouvrir le menu principal
+                        </span>
                         <Bars3Icon
                           aria-hidden="true"
                           className="block h-6 w-6 group-data-[open]:hidden"

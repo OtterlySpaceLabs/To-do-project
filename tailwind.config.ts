@@ -10,14 +10,14 @@ export default {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
       colors: {
-        primary: "#7360f1", // Electric Lavender
-        primaryGradient: "#8271F3",
-        secondary: "#2D7AF5", // Ocean Blue
-        secondaryGradient: "#0062FF",
-        tertiary: "#81ECFF", // Azure
-        tertiaryGradient: "#B6F4FF",
-        accent: "#D297FF", // Lilac or Soft Lavender
-        accentGradient: "#E3BDFF",
+        primary: "#4738A8", // Indigo
+        primaryGradient: "#7765E3",
+        secondary: "#0A58D6", // Cobalt Blue
+        secondaryGradient: "#2D7AF5",
+        tertiary: "#00D0F5", // Bright Cyan
+        tertiaryGradient: "#81ECFF",
+        accent: "#A733FF", // Electric Violet
+        accentGradient: "#D297FF",
         warning: "#F24E1E", // Red
         warningGradient: "#FF7262",
       },

@@ -26,9 +26,9 @@ export default async function Home() {
               <p className="mb-2 mt-6 text-center">
                 C&#39;est parti mon kiki !
               </p>
-              <span className="mb-6 mt-2 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-lg hover:animate-bounce">
+              <span className="mb-6 mt-2 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-2xl hover:animate-bounce">
                 <a href="#sign-in-button">
-                  <ArrowDownIcon className="h-7 w-7 rounded-full text-accent" />
+                  <ArrowDownIcon className="h-7 w-7 text-accent" />
                 </a>
               </span>
 
