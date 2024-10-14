@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { api } from "~/trpc/react";
 import { type Task } from "~/server/db/schema";
 
@@ -26,6 +26,22 @@ export default function CreateTask() {
   useEffect(() => {
     console.log("Les tâches :", tasks);
   }, [tasks]);
+
+  const [showLoader, setShowLoader] = useState(true);
+  const startTimeRef = useRef(Date.now());
+
+  useEffect(() => {
+    if (!isLoading) {
+      const elapsedTime = Date.now() - startTimeRef.current;
+      const remainingTime = Math.max(2000 - elapsedTime, 0);
+
+      const timer = setTimeout(() => {
+        setShowLoader(false);
+      }, remainingTime);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   const utils = api.useUtils();
 
@@ -70,7 +86,7 @@ export default function CreateTask() {
         handleSubmit={(event) => handleSubmit(event)}
       />
       <div className="mt-6 flex flex-col items-center gap-2">
-        {isLoading ? (
+        {showLoader ? (
           <Loader />
         ) : error ? (
           <div className="text-warning">
