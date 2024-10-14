@@ -33,10 +33,11 @@ export default function TaskForm({
       </div>
       <button
         type="submit"
-        className={`inline-flex w-full items-center justify-center rounded-md px-3 py-3 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-0 sm:w-auto ${task.trim().length === 0
+        className={`inline-flex w-full items-center justify-center rounded-md px-3 py-3 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-0 sm:w-auto ${
+          task.trim().length === 0
             ? "cursor-not-allowed bg-gray-400 text-gray-900"
             : "bg-gradient-to-r from-primary to-accent text-white hover:from-accent hover:to-accentGradient hover:shadow-lg focus-visible:outline-primary"
-          }`}
+        }`}
         onClick={handleSubmit}
         disabled={task.trim().length === 0}
       >
