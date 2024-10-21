@@ -1,17 +1,30 @@
 "use client";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import animationData from "../../lotties/cat.json";
 
 export default function Loader() {
   return (
-    <div className="mt-4 flex flex-col items-center gap-2">
-      <DotLottieReact
-        data={animationData}
-        style={{ width: 150, height: 150 }}
-        speed={2.5}
-        loop
-        autoplay
-      />
+    <div className="mt-4 flex h-[300px] w-[300px] flex-col items-center gap-2">
+      <p>On attend parce que c&#39;est le loader</p>
     </div>
   );
 }
+
+// "use client";
+
+// import { useRive } from "@rive-app/react-canvas";
+
+// export const UrlDemo = () => {
+//   const { rive, RiveComponent } = useRive({
+//     src: "https://cdn.rive.app/animations/vehicles.riv",
+//     autoplay: true,
+//   });
+//   return <RiveComponent />;
+// };
+
+// export default function Loader() {
+//   return (
+//     <div className="RiveContainer">
+//       <UrlDemo />
+//     </div>
+//   );
+// }
+
