@@ -9,10 +9,14 @@ import TaskForm from "./taskForm";
 import TaskList from "./taskList";
 import EditTaskModal from "./editTaskModal";
 import DeleteTaskModal from "./deleteTaskModal";
+import Confettis from "./confettis";
 import { useTaskMutations } from "~/app/hook/useTaskMutations";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+interface ConfettiRef {
+  playAnimation: () => void;
+}
 
 export default function CreateTask() {
   const [task, setTask] = useState("");
@@ -47,6 +51,8 @@ export default function CreateTask() {
 
   const { createTask } = useTaskMutations(utils, setTask);
 
+  const confettiRef = useRef<ConfettiRef>(null);
+
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (task.trim().length === 0) {
@@ -56,6 +62,10 @@ export default function CreateTask() {
 
     createTask.mutate({ name: task });
     console.log("Envoi de la mutation avec le nom :", task);
+
+    if (confettiRef.current) {
+      confettiRef.current.playAnimation();
+    }
   };
 
   const openEditModal = (task: Task) => {
@@ -80,11 +90,14 @@ export default function CreateTask() {
 
   return (
     <div>
-      <TaskForm
-        task={task}
-        setTask={setTask}
-        handleSubmit={(event) => handleSubmit(event)}
-      />
+      <div className="mt-6 flex items-center gap-4">
+        <TaskForm
+          task={task}
+          setTask={setTask}
+          handleSubmit={(event) => handleSubmit(event)}
+        />
+        <Confettis ref={confettiRef} />
+      </div>
       <div className="mt-6 flex flex-col items-center gap-2">
         {showLoader ? (
           <Loader />
