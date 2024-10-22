@@ -1,29 +1,61 @@
-# Create T3 App
+# T3 Todo list
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Projet de todo list réalisé par Marine.
 
-## What's next? How do I make an app with this?
+## Prérequis
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Avant de commencer, assurez-vous d'avoir installé les éléments suivants sur votre machine :
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Node.js**
+- **NPM**
+- **Docker** (doit être en cours d'exécution)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Installation
 
-## Learn More
+**Initialiser la base de données sur Docker**
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+   Exécutez le script `start-database.sh` pour initialiser la base de données sur Docker :
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+   ```bash
+   ./start-database.sh
+   ```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+**Construire la base de données**
 
-## How do I deploy this?
+   Exécutez la commande suivante pour construire la base de données :
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+   ```bash
+   npm run db:push
+   ```
+
+**Configurer les fichiers d'environnement**
+
+   Copiez le fichier `.env.exemple` et renommez-le en `.env` :
+
+   ```bash
+   cp .env.exemple .env
+   ```
+
+**Remplir les identifiants Discord**
+
+   Ouvrez le fichier `.env` et renseignez les identifiants de Discord, utilisés pour la connexion à l'application. Assurez-vous également de définir la variable `NEXTAUTH_SECRET`.
+
+**Installer les dépendances**
+
+   Installez les dépendances du projet avec NPM :
+
+   ```bash
+   npm install
+   ```
+
+**Lancer l'application**
+
+   Démarrez l'application en mode développement :
+
+   ```bash
+   npm run dev
+   ```
+
+
+
+À ce stade, l'application devrait fonctionner correctement.
