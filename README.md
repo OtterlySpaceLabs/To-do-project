@@ -30,10 +30,10 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants sur v
 
 **Configurer les fichiers d'environnement**
 
-   Copiez le fichier `.env.exemple` et renommez-le en `.env` :
+   Copiez le fichier `.env.example` et renommez-le en `.env` :
 
    ```bash
-   cp .env.exemple .env
+   cp .env.example .env
    ```
 
 **Remplir les identifiants Discord**
